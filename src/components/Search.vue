@@ -9,6 +9,19 @@
   </header>
 </template>
 
+<script>
+export default {
+  created() {
+    this.workspaceInit();
+  },
+  methods: {
+    async workspaceInit() {
+      await this.$store.dispatch("workspace/getMovies");
+    },
+  },
+};
+</script>
+
 <style lang="scss" scoped>
 header {
   display: flex;
