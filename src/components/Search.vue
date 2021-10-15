@@ -3,20 +3,19 @@
     <h1>Search Movie</h1>
     <h3>Press enter or Click find button</h3>
     <div>
-      <input type="text" />
-      <button>Find</button>
+      <input type="text" ref="inputTitle" v-on:keyup.enter="getMovies" />
+      <button @click.prevent="getMovies">Find</button>
     </div>
   </header>
 </template>
 
 <script>
 export default {
-  created() {
-    this.workspaceInit();
-  },
   methods: {
-    async workspaceInit() {
-      await this.$store.dispatch("workspace/getMovies");
+    getMovies() {
+      this.$store.dispatch("workspace/getMovies", {
+        title: this.$refs.inputTitle.value,
+      });
     },
   },
 };

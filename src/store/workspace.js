@@ -6,21 +6,21 @@ export default {
   },
   actions: {
     async getMovies(context, payload) {
+      const { title } = payload;
       const movies = await _request({
         methods: "GET",
+        title
       });
-      console.log(movies);
+      return movies;
     },
   },
 };
 
 async function _request(options) {
   try {
-    return await fetch("https://www.omdbapi.com", {
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const { methods, title } = options;
+    return await fetch(`https://www.omdbapi.com/?apikey=7035c60c&s=${title}`, {
+      methods,
     }).then((res) => res.json());
   } catch (error) {
     alert(error.message);
