@@ -15,7 +15,7 @@ export default {
   actions: {
     async getMovies({ commit }, payload) {
       const { title } = payload;
-      const res = await _request({
+      const res = await _requestTitle({
         methods: "GET",
         title,
       });
@@ -24,12 +24,30 @@ export default {
         movies,
       });
     },
+    async showResult(context, id) {
+      const res = await _requestId({
+        methods: "GET",
+        id,
+      });
+      console.log(res);
+    },
   },
 };
 
-async function _request(options) {
+async function _requestTitle(options) {
   try {
-    const { methods, title } = options;
+    const { methods, title, id } = options;
+    return await fetch(`https://www.omdbapi.com/?apikey=7035c60c&s=${title}`, {
+      methods,
+    }).then((res) => res.json());
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+async function _requestId(options) {
+  try {
+    const { methods, title, id } = options;
     return await fetch(`https://www.omdbapi.com/?apikey=7035c60c&s=${title}`, {
       methods,
     }).then((res) => res.json());

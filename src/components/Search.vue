@@ -8,10 +8,17 @@
     </div>
   </header>
   <ul class="movies">
-    <li class="movie" v-for="movie in movies" :key="movie.imdbID">
+    <li
+      class="movie"
+      v-for="movie in movies"
+      :key="movie.imdbID"
+      @click="showResult(movie.imdbID)"
+    >
       <img class="movie__img" :src="getPosterUrl(movie)" />
-      {{ movie.Title }}
-      {{ movie.Year }}
+      <span>
+        {{ movie.Title }}
+        {{ movie.Year }}
+      </span>
     </li>
   </ul>
 </template>
@@ -31,6 +38,9 @@ export default {
     },
     getPosterUrl(movie) {
       return movie.Poster;
+    },
+    showResult(id) {
+      this.$store.dispatch("workspace/showResult", id);
     },
   },
 };
@@ -63,15 +73,24 @@ header {
 .movies {
   list-style: none;
   display: flex;
-  gap: 10px;
+  gap: 20px;
+  flex-wrap: wrap;
   .movie {
+    display: flex;
+    flex-direction: column;
     cursor: pointer;
     font-size: 20px;
+    overflow-x: hidden;
     &__img {
       border-radius: 15px;
       width: 300px;
       height: 420px;
       object-fit: cover;
+      box-shadow: 0px 0px 5px gray;
+      &:hover {
+        opacity: 0.5;
+        transition: opacity 0.2s;
+      }
     }
   }
 }
