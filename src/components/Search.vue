@@ -7,9 +7,9 @@
       <button @click.prevent="getMovies">Find</button>
     </div>
   </header>
-  <ul>
-    <li v-for="movie in movies" :key="movie.imdbID">
-      <img :src="getPosterUrl(movie)" />
+  <ul class="movies">
+    <li class="movie" v-for="movie in movies" :key="movie.imdbID">
+      <img class="movie__img" :src="getPosterUrl(movie)" />
       {{ movie.Title }}
       {{ movie.Year }}
     </li>
@@ -57,6 +57,21 @@ header {
         transition: background-color 0.5s;
         background-color: rgba(95, 158, 160, 0.5);
       }
+    }
+  }
+}
+.movies {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  .movie {
+    cursor: pointer;
+    font-size: 20px;
+    &__img {
+      border-radius: 15px;
+      width: 300px;
+      height: 420px;
+      object-fit: cover;
     }
   }
 }

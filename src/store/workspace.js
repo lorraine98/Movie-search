@@ -1,4 +1,3 @@
-import router from "~/routes/index";
 export default {
   namespaced: true,
   state() {
