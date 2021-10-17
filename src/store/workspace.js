@@ -2,16 +2,28 @@ import router from "~/routes/index";
 export default {
   namespaced: true,
   state() {
-    return {};
+    return {
+      movies: [],
+    };
+  },
+  mutations: {
+    assignState(state, payload) {
+      Object.keys(payload).forEach((key) => {
+        state[key] = payload[key];
+      });
+    },
   },
   actions: {
-    async getMovies(context, payload) {
+    async getMovies({ commit }, payload) {
       const { title } = payload;
-      const movies = await _request({
+      const res = await _request({
         methods: "GET",
-        title
+        title,
       });
-      return movies;
+      const movies = res?.Search ?? [];
+      commit("assignState", {
+        movies,
+      });
     },
   },
 };
