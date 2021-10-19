@@ -8,10 +8,5 @@ export default {
   components: {
     Detail,
   },
-  watch: {
-    $route() {
-      console.log(this.$route);
-    },
-  },
 };
 </script>
