@@ -1,5 +1,17 @@
-<template></template>
+<template>
+  <Detail />
+</template>
 
 <script>
-export default {};
+import Detail from "~/components/Detail";
+export default {
+  components: {
+    Detail,
+  },
+  watch: {
+    $route() {
+      console.log(this.$route);
+    },
+  },
+};
 </script>

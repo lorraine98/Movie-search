@@ -1,8 +1,11 @@
+import router from "~/routes";
+
 export default {
   namespaced: true,
   state() {
     return {
       movies: [],
+      result: [],
     };
   },
   mutations: {
@@ -15,7 +18,7 @@ export default {
   actions: {
     async getMovies({ commit }, payload) {
       const { title } = payload;
-      const res = await _requestTitle({
+      const res = await _fetchMovieByTitle({
         methods: "GET",
         title,
       });
@@ -24,33 +27,49 @@ export default {
         movies,
       });
     },
-    async showResult(context, id) {
-      const res = await _requestId({
+    async showResult({ commit }, id) {
+      const res = await _fetchMovieById({
         methods: "GET",
         id,
       });
-      console.log(res);
+      commit("assignState", {
+        result: res,
+      });
+      router.push({
+        path: "/Result",
+        query: {
+          id,
+        },
+      });
     },
   },
 };
 
-async function _requestTitle(options) {
+const BASE_URL = "https://www.omdbapi.com";
+const API_KEY = "7035c60c";
+
+async function _fetchMovieByTitle(options) {
   try {
-    const { methods, title, id } = options;
-    return await fetch(`https://www.omdbapi.com/?apikey=7035c60c&s=${title}`, {
+    const { methods, title } = options;
+    const res = await fetch(`${BASE_URL}/?apikey=${API_KEY}&s=${title}`, {
       methods,
-    }).then((res) => res.json());
+    });
+    return res.json();
   } catch (error) {
     alert(error.message);
   }
 }
 
-async function _requestId(options) {
+async function _fetchMovieById(options) {
   try {
-    const { methods, title, id } = options;
-    return await fetch(`https://www.omdbapi.com/?apikey=7035c60c&s=${title}`, {
-      methods,
-    }).then((res) => res.json());
+    const { methods, id } = options;
+    const res = await fetch(
+      `${BASE_URL}/?apikey=${API_KEY}&i=${id}&plot=full`,
+      {
+        methods,
+      }
+    );
+    return res.json();
   } catch (error) {
     alert(error.message);
   }
